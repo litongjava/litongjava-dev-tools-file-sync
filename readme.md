@@ -17,7 +17,7 @@ jfinal+sqllite
 ## 使用
 下载release中的文件  
 在windows启动start.bat  
-启动成功后访问http://192.168.0.15:10037/dev-tools-file-sync/
+启动成功后访问http://127.0.0.1:10037/dev-tools-file-sync/
 配置同步信息  
 ![image-20210711115508910](doc/images/image-20210711115508910.png)  
 
