@@ -39,6 +39,9 @@ jfinal+sqllite
 ## 测试视频
 https://www.bilibili.com/video/bv1Uw411R7aS
 
+配置同步信息  
+![litongjava-dev-tools-file-sync精简版.gif](doc/images/litongjava-dev-tools-file-sync精简版.gif)  
+
 
 
 
