@@ -1,9 +1,9 @@
 # litongjava-dev-tools-file-sync
 
-# 简介
+## 简介
 
 [主要功能]  
-1) 检测目录下的文件是否有变化,如果有变化通过ssh协议上传到linux  
+1.检测目录下的文件是否有变化,如果有变化通过ssh协议上传到linux  
  
 [替代产品]  
 idea的Tools-->Deployment  
@@ -17,7 +17,8 @@ jfinal+sqllite
 ## 使用
 下载release中的文件  
 在windows启动start.bat  
-启动成功后访问http://192.168.0.15:10037/dev-tools-file-sync/配置同步信息  
+启动成功后访问http://192.168.0.15:10037/dev-tools-file-sync/
+配置同步信息  
 ![image-20210711115508910](doc/images/image-20210711115508910.png)  
 
 | 参数     | 简介                                                         |
@@ -36,6 +37,8 @@ jfinal+sqllite
 内存消耗为113MB
 
 ## 测试视频
+https://www.bilibili.com/video/bv1Uw411R7aS
+
 
 
 
