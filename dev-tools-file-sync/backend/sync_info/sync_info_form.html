@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title></title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" type="text/css" href="../../js/layui/2.5.5/css/layui.css" />
+<style type="text/css">
+</style>
+</head>
+
+<body>
+<form class="layui-form" action="" style="display: block;" id="form-data" lay-filter="data-form">
+  <div class="layui-form-item"> <input type="hidden" name="id" class="layui-input">
+    <div class="layui-form-item"> <label for="" class="layui-form-label">名称</label>
+      <div class="layui-input-block"> <input type="text" name="name" class="layui-input" required lay-verify="required" placeholder="请输入" /> </div>
+    </div>
+    <div class="layui-form-item">
+      <lable class="layui-form-label">本地路径</lable>
+      <div class="layui-input-block"> <input type="text" name="local_path" class="layui-input" placeholder="请输入" autocomplet="off" required layui-verify='required'
+        /></div>
+    </div>
+    <div class="layui-form-item">
+      <lable class="layui-form-label">远程路径</lable>
+      <div class="layui-input-block"> <input type="text" name="remote_path" class="layui-input" placeholder="请输入" autocomplet="off" required layui-verify='required'
+        /></div>
+    </div>
+    <div class="layui-form-item">
+      <lable class="layui-form-label">远程IP</lable>
+      <div class="layui-input-block"> <input type="text" name="remote_ip" class="layui-input" placeholder="请输入" autocomplet="off" required layui-verify='required'
+        /></div>
+    </div>
+    <div class="layui-form-item">
+      <lable class="layui-form-label">用户名</lable>
+      <div class="layui-input-block"> <input type="text" name="remote_user" class="layui-input" placeholder="请输入" autocomplet="off" required layui-verify='required'
+        /></div>
+    </div>
+    <div class="layui-form-item">
+      <lable class="layui-form-label">密码</lable>
+      <div class="layui-input-block"> <input type="text" name="remote_pswd" class="layui-input" placeholder="请输入" autocomplet="off" required layui-verify='required'
+        /></div>
+    </div>
+    <div class="layui-form-item">
+      <lable class="layui-form-label">端口</lable>
+      <div class="layui-input-block"> <input type="text" name="remote_port" class="layui-input" placeholder="请输入" autocomplet="off" required layui-verify='required'
+        /></div>
+    </div>
+    <div class="layui-form-item">
+      <div class="layui-input-block"> <button class="layui-btn" lay-submit lay-filter="front-submit" id="front-submit">立即提交</button> <button type="reset"
+          class="layui-btn layui-btn-primary">重置</button> <input type="button" class="layui-btn layui-btn-danger" value="关闭"
+          onclick="layer_close()" /> </div>
+    </div>
+</form>
+</body>
+<script src="../../js/layui/2.5.5/layui.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/jquery/1.9.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+var title = "定时任务";
+var tableName = "sync_info"
+var uri = projectName + '/api/form';
+document.title = title + '数据表单';
+var listPageName = tableName + "_list.html";
+layui.use(['form', 'layer'], function() {
+  form = layui.form;
+  layuiFormRender(uri, form, layui.layer);
+});
+</script>
+
+</html>

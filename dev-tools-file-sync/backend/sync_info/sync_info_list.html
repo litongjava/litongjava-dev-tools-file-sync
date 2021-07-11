@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title></title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" type="text/css" href="../../js/layui/2.5.5/css/layui.css" />
+<style type="text/css">
+.layui-table-body tr:nth-child(even) {
+  background-color: #C7EDCC;
+}
+
+.layui-form-item {
+  margin-bottom: -23px;
+}
+</style>
+</head>
+
+<body>
+<div class="header layui-form">
+  <div class="layui-form-item">
+    <div class="layui-inline"> <label class="layui-form-label">ID</label>
+      <div class="layui-input-block"> <input type="text" name="id" placeholder="请输入id" autocomplete="off" class="layui-input"> </div>
+    </div>
+    <div class="layui-inline"> <label class="layui-form-label">名称</label>
+      <div class="layui-input-block"> <input type="text" name="like.name" placeholder="名称" autocomplete="off" class="layui-input"> </div>
+    </div>
+    <div class="layui-inline"> <label class="layui-form-label">远程IP</label>
+      <div class="layui-input-block"> <input type="text" name="like.remote_ip" placeholder="名称" autocomplete="off" class="layui-input"> </div>
+    </div>
+    <div class="layui-inline"> <label class="layui-form-label">用户名</label>
+      <div class="layui-input-block"> <input type="text" name="like.remote_user" placeholder="名称" autocomplete="off" class="layui-input"> </div>
+    </div>
+    <div class="layui-inline"> <button class="layui-btn layuiadmin-btn-useradmin" lay-submit lay-filter="front-search">
+					<i class="layui-icon layui-icon-search"></i>
+			</button> </div>
+  </div>
+  <!--end layui-form-item-->
+</div>
+<!--end lay-card-head-->
+<table id="data-table" lay-filter="data-table" class="layui-form layui-border-box layui-table-view"></table>
+</body>
+<script type="text/html" id="toolBar">
+  <div class="layui-btn-container"> 
+    <button class="layui-btn layui-btn-sm layui-btn-tool layui-btn-danger" data-type="batchdel">
+      <i class="layui-icon"></i>批量删除</button>
+    <button class="layui-btn layui-btn-sm layui-btn-tool" data-type="add">
+      <i class="layui-icon"></i>添加</button> 
+    <button class="layui-btn layui-btn-sm layui-btn-tool layui-btn-normal" data-type="addNewTab"><i class="layui-icon">
+      </i>打开新界面添加</button> 
+    <button class="layui-btn layui-btn-sm layui-btn-tool" data-type="exportExcel">
+      <i class="layui-icon"></i>导出Excel</button>
+  </div>
+</script>
+<script type="text/html" id="operation-btns">
+  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+  <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+  <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="editNewTab">打开新页面编辑</a>
+  <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="syncFile">同步文件</a>
+</script>
+<script type="text/html" id="statusTemplet"> <input type="checkbox" lay-skin="switch" lay-text="开启|关闭" lay-filter="status" {{ d.status=='1' ? 'checked' : '' }} value="{{d.id}}">  </script>
+<script src="../../js/layui/2.5.5/layui.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/jquery/1.9.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/layui/ext/excel.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+var title = "同步信息";
+var tableName = "sync_info"
+var uri = projectName + '/api/form';
+document.title = title + '数据列表';
+var formPageName = tableName + "_form.html";
+var orderBy = 'id';
+var isAsc = "true";
+var idField = 'id';
+var cols = [[
+  { "checkbox": true },
+  { "field": "id", "width": 50, "title": "id" },
+  { "field": "local_path", "width": 300, "title": "本地路径" },
+  {"field": "remote_path", "width": 300, "title": "远程路径" },
+  { "field": "remote_ip", "width": 150, "title": "远程IP" },
+  { "field": "remote_user", "width": 100, "title": "用户名" },
+  { "field": "remote_pswd", "width": 100, "title": "密码" },
+  { "field": "remote_port", "width": 100, "title": "端口" },
+  { "field": "name", "width": 100, "title": "名称" },
+  { "field": "status", "width": 100, "title": "是否开启", templet: '#statusTemplet' },
+  { fixed: 'right', width: 300, title: '操作', toolbar: '#operation-btns' }
+]]
+layui.use(['table', 'layer', 'form', 'laypage', 'laydate'], function() {
+  var table = layui.table;
+  var layer = layui.layer;
+  var form = layui.form;
+  var laypage = layui.laypage;
+  var laydate = layui.laydate;
+  //初始化时间组件
+  layuiRenderTime(laydate);
+  //渲染数据
+  layuiTableRender(uri, title, cols, formPageName, table, layer, form, laypage);
+});
+
+function layuiRenderTime(laydate) {
+  laydate.render({ elem: '#time1', type: 'datetime'});
+  laydate.render({ elem: '#time2', type: 'datetime'});
+  laydate.render({ elem: '#time3', type: 'datetime'});
+  laydate.render({ elem: '#time4', type: 'datetime'});
+}
+</script>
+
+</html>
