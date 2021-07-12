@@ -17,8 +17,8 @@
       <directory>${basedir}/src/main/resources</directory>
       <outputDirectory>config</outputDirectory>
       <includes>
-        <include>log4j2.xml</include>
-        <include>undertow.properties</include>
+        <include>*.xml</include>
+        <include>*.properties</include>
       </includes>
     </fileSet>
 
