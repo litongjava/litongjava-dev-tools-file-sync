@@ -7,7 +7,7 @@ import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Record;
 import com.litongjava.modules.dev.tools.file.sync.dataobj.SyncInfoStatus;
 import com.litongjava.modules.dev.tools.file.sync.model.SyncInfo;
-import com.litongjava.modules.dev.tools.file.sync.plugin.FileWatcher;
+import com.litongjava.modules.dev.tools.file.sync.plugin.FileSyncWatcher;
 import com.litongjava.modules.dev.tools.file.sync.plugin.WatchServicePlugin;
 import com.litongjava.modules.dev.tools.file.sync.plugin.WatchServicePluginUtils;
 import com.litongjava.modules.dev.tools.file.sync.plugin.WathchServiceTaskInfo;
@@ -51,7 +51,7 @@ public class SyncInfoService {
       if(SyncInfoStatus.enable.equals(syncInfo.getStatus())) {
         String sql = "SELECT id,local_path,remote_path,remote_ip,remote_port,remote_user,remote_pswd,name FROM sync_info WHERE id=? and STATUS=1 AND is_del=0";
         syncInfo= SyncInfo.dao.findFirst(sql, syncInfo.getId());
-        plugin.addTask(syncInfo.getId(), new FileWatcher(syncInfo));
+        plugin.addTask(syncInfo.getId(), new FileSyncWatcher(syncInfo));
         plugin.start(syncInfo.getId());
       }
     }

@@ -17,6 +17,7 @@ import org.apache.commons.io.FilenameUtils;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.SftpException;
 import com.litongjava.utils.file.PathUtils;
+import com.litongjava.utils.log.LogUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -59,7 +60,7 @@ public class JschUploadFolerFileVisitor extends SimpleFileVisitor<Path> {
       JschUtils.mkdirs(channel, PathUtils.getParentPath(getRemoteFullPath, "/"));
       channel.put(src, getRemoteFullPath, ChannelSftp.OVERWRITE);
     } catch (SftpException e) {
-      e.printStackTrace();
+      log.error(LogUtils.getStackTraceInfo(e));
     }
     return FileVisitResult.CONTINUE;
   }

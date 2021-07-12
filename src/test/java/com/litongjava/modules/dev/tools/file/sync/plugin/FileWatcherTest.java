@@ -24,7 +24,7 @@ public class FileWatcherTest {
     syncInfo.setRemoteUser("root");
     syncInfo.setRemotePswd("00000000");
     
-    FileWatcher fileWatcher = new FileWatcher(syncInfo);
+    FileSyncWatcher fileWatcher = new FileSyncWatcher(syncInfo);
     fileWatcher.upload(file, syncInfo);
     
   }

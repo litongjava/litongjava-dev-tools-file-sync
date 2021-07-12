@@ -32,7 +32,7 @@ public class WatchServicePluginService {
     for (SyncInfo e : find) {
       // 添加监控
       log.info("id:{},监控目录:{}", e.getId(), e.getLocalPath());
-      FileWatcher fileWatcher = new FileWatcher(e);
+      FileSyncWatcher fileWatcher = new FileSyncWatcher(e);
       newPlugin.addTask(e.getId(),fileWatcher);
     }
     // 开启新的文件检测服务

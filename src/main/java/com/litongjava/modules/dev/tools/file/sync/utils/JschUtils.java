@@ -13,6 +13,7 @@ import org.apache.commons.io.FilenameUtils;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.SftpException;
 import com.litongjava.utils.file.PathUtils;
+import com.litongjava.utils.log.LogUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,7 +40,8 @@ public class JschUtils {
     try {
       channel = jschChannel.connect(remoteUser, remotePswd, remoteHost, Integer.valueOf(remotePort), 60000);
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error(LogUtils.getStackTraceInfo(e));
+      
       return;
     }
     try {
@@ -51,7 +53,7 @@ public class JschUtils {
       mkdirs(channel, PathUtils.getParentPath(dst, "/"));
       channel.put(src, dst, ChannelSftp.OVERWRITE);
     } catch (SftpException e) {
-      e.printStackTrace();
+      log.error(LogUtils.getStackTraceInfo(e));
     } finally {
       jschChannel.closeChannel();
     }
@@ -64,14 +66,14 @@ public class JschUtils {
       jschChannel = new JschChannel();
       channel = jschChannel.connect(remoteUser, remotePswd, remoteHost, Integer.valueOf(remotePort), 60000);
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error(LogUtils.getStackTraceInfo(e));
       return;
     }
     try {
       log.info("delete {}", remoteFilePath);
       channel.rm(remoteFilePath);
     } catch (SftpException e) {
-      e.printStackTrace();
+      log.error(LogUtils.getStackTraceInfo(e));
     } finally {
       jschChannel.closeChannel();
     }
@@ -127,7 +129,7 @@ public class JschUtils {
     try {
       channel = jschChannel.connect(user, pswd, host, Integer.valueOf(port), 60000);
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error(LogUtils.getStackTraceInfo(e));
       return 1;
     }
     /**
@@ -138,7 +140,7 @@ public class JschUtils {
 //      channel.rmdir(remotePath);
 //      log.info("删除远程目录成功");
 //    } catch (SftpException e) {
-//      e.printStackTrace();
+//      log.error(LogUtils.getStackTraceInfo(e));
 //      log.info("删除远程目录出现异常:{}",e.getMessage());
 //    }
     log.info("upload {} to {}", FilenameUtils.getName(localPath), PathUtils.getParentPath(remotePath, "/"));
@@ -156,7 +158,7 @@ public class JschUtils {
     try {
       Files.walkFileTree(path, simpleFileVisitor);
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error(LogUtils.getStackTraceInfo(e));
       return 1;
     } finally {
       jschChannel.closeChannel();

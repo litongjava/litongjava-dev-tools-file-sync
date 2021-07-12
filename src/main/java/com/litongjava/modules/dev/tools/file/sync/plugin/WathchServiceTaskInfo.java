@@ -9,9 +9,9 @@ public class WathchServiceTaskInfo {
 
   boolean daemon;
   boolean enable;
-  FileWatcher task;
+  FileSyncWatcher task;
 
-  public WathchServiceTaskInfo(FileWatcher task, boolean daemon, boolean enable) {
+  public WathchServiceTaskInfo(FileSyncWatcher task, boolean daemon, boolean enable) {
     this.task = task;
     this.daemon = daemon;
     this.enable = enable;

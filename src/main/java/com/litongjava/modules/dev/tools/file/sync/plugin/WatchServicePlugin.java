@@ -33,11 +33,11 @@ public class WatchServicePlugin implements IPlugin {
     return true;
   }
 
-  public WatchServicePlugin addTask(String id,FileWatcher task) {
+  public WatchServicePlugin addTask(String id,FileSyncWatcher task) {
     return addTask(id,task, true, true);
   }
 
-  public WatchServicePlugin addTask(String id,FileWatcher task, boolean daemon, boolean enable) {
+  public WatchServicePlugin addTask(String id,FileSyncWatcher task, boolean daemon, boolean enable) {
     taskInfoMap.put(id,new WathchServiceTaskInfo(task, daemon, enable));
     return this;
   }

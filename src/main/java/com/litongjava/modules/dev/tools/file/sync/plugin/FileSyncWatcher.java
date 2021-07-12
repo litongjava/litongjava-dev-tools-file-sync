@@ -19,6 +19,7 @@ import java.util.Set;
 import com.jfinal.server.undertow.UndertowKit;
 import com.litongjava.modules.dev.tools.file.sync.model.SyncInfo;
 import com.litongjava.modules.dev.tools.file.sync.utils.JschUtils;
+import com.litongjava.utils.log.LogUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
  * 检测文件变动
  */
 @Slf4j
-public class FileWatcher extends Thread {
+public class FileSyncWatcher extends Thread {
 
   // protected int watchingInterval = 1000; // 1900 与 2000 相对灵敏
   protected int watchingInterval = 500;
@@ -37,7 +38,7 @@ public class FileWatcher extends Thread {
   protected volatile boolean running = true;
   private SyncInfo syncInfo;
 
-  public FileWatcher(SyncInfo syncInfo) {
+  public FileSyncWatcher(SyncInfo syncInfo) {
     setName("FileWatcher");
     // 避免在调用 deploymentManager.stop()、undertow.stop() 后退出 JVM
     setPriority(Thread.MAX_PRIORITY);
@@ -156,6 +157,7 @@ public class FileWatcher extends Thread {
 
   private boolean isExclude(File file) {
     if (file.isDirectory()) {
+      log.info("排除文件夹：{}",file.getName());
       return true;
     } else if (file.getName().endsWith("~")) {
       return true;
@@ -200,7 +202,7 @@ public class FileWatcher extends Thread {
       log.info("关闭:{}", watcher);
       watcher.close();
     } catch (IOException e) {
-      e.printStackTrace();
+      log.error(LogUtils.getStackTraceInfo(e));
     }
   }
 

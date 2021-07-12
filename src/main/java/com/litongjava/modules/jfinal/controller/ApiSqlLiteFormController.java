@@ -25,6 +25,7 @@ import com.litongjava.modules.jfinal.service.TableColumnSerivce;
 import com.litongjava.modules.jfinal.utils.KvUtils;
 import com.litongjava.modules.jfinal.validate.ApiFormValidator;
 import com.litongjava.modules.jfinal.vo.PageJsonBean;
+import com.litongjava.utils.log.LogUtils;
 import com.litongjava.utils.vo.JsonBean;
 
 import lombok.extern.slf4j.Slf4j;
@@ -84,7 +85,7 @@ public class ApiSqlLiteFormController extends Controller {
     try {
       listPage = Db.paginate(pageNo, pageSize, "select " + columns, sqlExceptSelect.toString(), paramList.toArray());
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error(LogUtils.getStackTraceInfo(e));
       renderJson(getException(e));
       return;
     }
@@ -120,7 +121,7 @@ public class ApiSqlLiteFormController extends Controller {
       record = Db.findFirst(sql.toString(), paramList.toArray());
       // record = Db.findById(tableName, kv.get("id"));
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error(LogUtils.getStackTraceInfo(e));
       renderJson(getException(e));
       return;
     }
@@ -151,7 +152,7 @@ public class ApiSqlLiteFormController extends Controller {
     try {
       Db.update(sql.toString(), kv.get("id"));
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error(LogUtils.getStackTraceInfo(e));
       renderJson(getException(e));
       return;
     }
@@ -215,7 +216,7 @@ public class ApiSqlLiteFormController extends Controller {
     try {
       Db.update(sql, idValues);
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error(LogUtils.getStackTraceInfo(e));
       renderJson(getException(e));
       return;
     }
@@ -258,7 +259,7 @@ public class ApiSqlLiteFormController extends Controller {
       try {
         Db.update(tableName, record);
       } catch (Exception e) {
-        e.printStackTrace();
+        log.error(LogUtils.getStackTraceInfo(e));
         renderJson(getException(e));
         return;
       }
@@ -274,7 +275,7 @@ public class ApiSqlLiteFormController extends Controller {
       try {
         Db.save(tableName, record);
       } catch (Exception e) {
-        e.printStackTrace();
+        log.error(LogUtils.getStackTraceInfo(e));
         renderJson(getException(e));
         return;
       }
