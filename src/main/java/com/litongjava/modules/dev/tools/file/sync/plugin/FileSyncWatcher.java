@@ -18,7 +18,6 @@ import java.util.Set;
 
 import com.jfinal.server.undertow.UndertowKit;
 import com.litongjava.modules.dev.tools.file.sync.model.SyncInfo;
-import com.litongjava.modules.dev.tools.file.sync.utils.JschUtils;
 import com.litongjava.utils.log.LogUtils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -127,42 +126,11 @@ public class FileSyncWatcher extends Thread {
         Object context = event.context();
         String fileName = context.toString();
         log.info("{}检测到文件修改{}", watcher.toString(), kind.toString() + "," + fileName);
-
-        if (context instanceof Path) {
-          Path dir = (Path) watchKey.watchable();
-          Path fullPath = dir.resolve(fileName);
-          File file = fullPath.toFile();
-
-          /**
-           * 如果是排除文件不理会
-           */
-          if (isExclude(file)) {
-            continue;
-          }
-
-          /**
-           * 除去log文件和文件夹都上传
-           */
-          if ("ENTRY_DELETE".equals(kind.toString())) {
-            deleteRemoteFile(file, syncInfo);
-          } else {
-            upload(file, syncInfo);
-          }
-        }
-      }
+        FileSyncProcesser.process(kind, context, fileName, watchKey, syncInfo);
+      } // end for
       resetWatchKey();
-    }
+    } // >eend while
 
-  }
-
-  private boolean isExclude(File file) {
-    if (file.isDirectory()) {
-      log.info("排除文件夹：{}",file.getName());
-      return true;
-    } else if (file.getName().endsWith("~")) {
-      return true;
-    }
-    return false;
   }
 
   private void resetWatchKey() {
@@ -204,32 +172,5 @@ public class FileSyncWatcher extends Thread {
     } catch (IOException e) {
       log.error(LogUtils.getStackTraceInfo(e));
     }
-  }
-
-  /**
-   * 上传文件到远程服务器
-   * @param file
-   * @param syncInfo
-   */
-  public void upload(File file, SyncInfo syncInfo) {
-    String localFilePath = file.getAbsolutePath();
-    String remoteFilePath = JschUtils.getRemoteFullPath(localFilePath, syncInfo.getLocalPath(), syncInfo.getRemotePath());
-    if (remoteFilePath == null) {
-      log.info("没有匹配到路径:{}", localFilePath);
-      return;
-    }
-    JschUtils.upload(localFilePath, remoteFilePath, syncInfo.getRemoteIp(), syncInfo.getRemotePort(), syncInfo.getRemoteUser(),
-        syncInfo.getRemotePswd());
-
-  }
-
-  public void deleteRemoteFile(File file, SyncInfo syncInfo) {
-    String localFilePath = file.getAbsolutePath();
-    String remoteFilePath = JschUtils.getRemoteFullPath(localFilePath, syncInfo.getLocalPath(), syncInfo.getRemotePath());
-    if (remoteFilePath == null) {
-      log.info("没有匹配到路径:{}", localFilePath);
-      return;
-    }
-    JschUtils.delete(remoteFilePath, syncInfo.getRemoteIp(), syncInfo.getRemotePort(), syncInfo.getRemoteUser(), syncInfo.getRemotePswd());
   }
 }

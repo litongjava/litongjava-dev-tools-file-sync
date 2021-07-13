@@ -44,6 +44,10 @@ public class JschUtils {
       
       return;
     }
+    File srcFile = new File(src);
+    if(!srcFile.exists()) {
+      return;
+    }
     try {
       log.info("upload {} to {}", FilenameUtils.getName(src), PathUtils.getParentPath(dst, "/"));
       /**
@@ -53,6 +57,7 @@ public class JschUtils {
       mkdirs(channel, PathUtils.getParentPath(dst, "/"));
       channel.put(src, dst, ChannelSftp.OVERWRITE);
     } catch (SftpException e) {
+      log.error("upload file fail:{}",src);
       log.error(LogUtils.getStackTraceInfo(e));
     } finally {
       jschChannel.closeChannel();
@@ -69,16 +74,21 @@ public class JschUtils {
       log.error(LogUtils.getStackTraceInfo(e));
       return;
     }
+    /**
+     * 判断远程文件是否存在,如果存在再进行删除
+     */
     try {
+      channel.ls(remoteFilePath);
       log.info("delete {}", remoteFilePath);
       channel.rm(remoteFilePath);
     } catch (SftpException e) {
+      log.error("remoteFilePath:{}",remoteFilePath);
       log.error(LogUtils.getStackTraceInfo(e));
-    } finally {
+      return;
+    }finally {
       jschChannel.closeChannel();
     }
   }
-
   /**
    * 递归创建文件夹
    * @param sftpChannel

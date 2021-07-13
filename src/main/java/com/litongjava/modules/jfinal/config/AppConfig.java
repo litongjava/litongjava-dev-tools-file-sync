@@ -1,4 +1,4 @@
-package com.litongjava.modules.jfinal;
+package com.litongjava.modules.jfinal.config;
 
 import com.jfinal.aop.Aop;
 import com.jfinal.config.Constants;
@@ -9,33 +9,16 @@ import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
 import com.jfinal.core.paragetter.ParaProcessorBuilder;
 import com.jfinal.kit.Kv;
-import com.jfinal.server.undertow.UndertowConfig;
-import com.jfinal.server.undertow.UndertowServer;
 import com.jfinal.template.Engine;
 import com.litongjava.modules.dev.tools.file.sync.plugin.WatchServicePlugin;
 import com.litongjava.modules.dev.tools.file.sync.plugin.WatchServicePluginService;
 import com.litongjava.modules.dev.tools.file.sync.plugin.WatchServicePluginUtils;
-import com.litongjava.modules.jfinal.config.DbConfig;
 import com.litongjava.modules.jfinal.getter.KvGetter;
-import com.litongjava.modules.jfinal.utils.PropKitUtils;
-import com.litongjava.utils.ip.IpUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class Application extends JFinalConfig {
-  private static String configFileName = PropKitUtils.configFileName;
-
-  public static void main(String[] args) {
-    long start = System.currentTimeMillis();
-    UndertowServer server = UndertowServer.create(Application.class, configFileName);
-    server.start();
-    long end = System.currentTimeMillis();
-    System.out.println("启动完成,共使用了" + (end - start) + "ms");
-    UndertowConfig config = server.getUndertowConfig();
-    IpUtils.getThisUrl(config.getPort(), config.getContextPath());
-
-  }
+public class AppConfig extends JFinalConfig {
 
   public void configConstant(Constants me) {
     me.setInjectDependency(true);

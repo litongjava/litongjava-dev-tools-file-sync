@@ -44,7 +44,10 @@ public class SyncInfoService {
     if (kv.containsKey(primarykeyName) && !StrKit.isBlank(kv.getStr(primarykeyName))) {// 更新
       log.info("数据更新:{}",syncInfo.getId());
       WathchServiceTaskInfo task = plugin.getTask(syncInfo.getId());
-      task.stop();
+      if(task!=null) {
+        task.stop();
+      }
+      
       /**
        * 如果是开启状态开启新的监控 
        */
